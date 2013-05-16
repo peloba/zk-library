@@ -115,7 +115,7 @@ class FatMatrix(val numberOfRows: Int, val numberOfCols: Int, @transient initial
 			throw new Exception("The inner matrix dimensions do not match")
 		}
 
-		if (!field.equals(otherMatrix.field))
+		if (!field.getClass.equals(otherMatrix.field.getClass))
 			throw new Exception("The field of the two matrices do not match")
 
 		val res = new FatMatrix(numberOfRows, numberOfCols, innerNumberOfRows, innerNumberOfCols, field)
@@ -160,7 +160,7 @@ class FatMatrix(val numberOfRows: Int, val numberOfCols: Int, @transient initial
 	 * immutable so use with care
 	 */
 	protected def setUntouched_!(rowId: Int, colId: Int, newValue: Matrix) = {
-		if (!field.equals(newValue.field))
+		if (!field.getClass.equals(newValue.field.getClass))
 			throw new Exception("The matrix fields do not match")
 
 		data(rowId - 1).update(colId - 1, newValue)

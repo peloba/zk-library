@@ -84,7 +84,7 @@ class Matrix(val numberOfRows: Int, val numberOfCols: Int, @transient var field:
 		if (numberOfRows != 2 || numberOfCols != 1 || otherMatrix.numberOfRows != 2 || otherMatrix.numberOfCols != 1)
 			throw new Exception("Matrices do not have 2x1 dimensions to apply F")
 
-		if (!field.equals(crs.G1) || !otherMatrix.field.equals(crs.G2))
+		if (!field.getClass.equals(crs.G1.getClass) || !otherMatrix.field.getClass.equals(crs.G2.getClass))
 			throw new Exception("The two matrices have wrong groups")
 
 		val res = new Matrix(2, 2, crs.pairing.getGT)
@@ -103,7 +103,7 @@ class Matrix(val numberOfRows: Int, val numberOfCols: Int, @transient var field:
 		if (numberOfCols != otherMatrix.numberOfRows)
 			throw new Exception("The matrix dimensions do not match")
 
-		if (!field.equals(otherMatrix.field))
+		if (!field.getClass.equals(otherMatrix.field.getClass))
 			throw new Exception("The fields of the matrices do not match")
 
 		val res = new Matrix(numberOfRows, otherMatrix.numberOfCols, field)
@@ -123,9 +123,6 @@ class Matrix(val numberOfRows: Int, val numberOfCols: Int, @transient var field:
 	def *(otherMatrix: FatMatrix): FatMatrix = {
 		if (numberOfCols != otherMatrix.numberOfRows)
 			throw new Exception("The matrix dimensions do not match")
-
-		/*if(!field.equals(otherMatrix.field))
-			throw new Exception("The fields of the matrices do not match")*/
 
 		val res = new FatMatrix(numberOfRows, otherMatrix.numberOfCols, otherMatrix.innerNumberOfRows, otherMatrix.innerNumberOfCols, otherMatrix.field)
 		for (i <- 1 to numberOfRows; j <- 1 to otherMatrix.numberOfCols) {
@@ -191,7 +188,7 @@ class Matrix(val numberOfRows: Int, val numberOfCols: Int, @transient var field:
 		if (numberOfRows != otherMatrix.numberOfRows || numberOfCols != otherMatrix.numberOfCols)
 			throw new Exception("The Matrix dimensions do not match")
 
-		if (!field.equals(otherMatrix.field))
+		if (!field.getClass.equals(otherMatrix.field.getClass))
 			throw new Exception("The field of the two matrices do not match")
 
 		val res = new Matrix(numberOfRows, numberOfCols, field)
@@ -239,7 +236,7 @@ class Matrix(val numberOfRows: Int, val numberOfCols: Int, @transient var field:
 	 * immutable so use with care
 	 */
 	protected def setUntouched_!(rowId: Int, colId: Int, newValue: Element) = {
-		if (!newValue.getField.equals(field))
+		if (!newValue.getField.getClass.equals(field.getClass))
 			throw new Exception("Cannot set matrix element: wrong field")
 
 		data(rowId - 1).update(colId - 1, newValue)

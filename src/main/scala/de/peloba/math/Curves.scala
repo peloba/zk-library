@@ -18,9 +18,10 @@
 package de.peloba
 package math
 
-import it.unisa.dia.gas.plaf.jpbc.pairing.{DefaultCurveParameters, PairingFactory}
+import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters
 import java.io.ByteArrayInputStream
 import collection.mutable
+import it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairing
 
 /**
  * The class Curves contains the descriptions of the curves currently supported by the library.
@@ -98,14 +99,14 @@ object Curves {
 	}
 
 	/**
-	 * Returns a jpbc pairing object for the given curveKey
+	 * Returns a pbc pairing object for the given curveKey
 	 *
 	 * The pairing object offers a direct access to the mathematical functionality of the bilinear map.
 	 *
 	 * @param curveKey The name of the curve
-	 * @return The jpbc pairing object for the given curve key
+	 * @return The pbc pairing object for the given curve key
 	 */
 	def pairing(curveKey: String) = {
-		PairingFactory.getPairing((new DefaultCurveParameters()).load(new ByteArrayInputStream(curves.getOrElse(curveKey, emptyByteArray))))
+		new PBCPairing((new DefaultCurveParameters()).load(new ByteArrayInputStream(curves.getOrElse(curveKey, emptyByteArray))))
 	}
 }

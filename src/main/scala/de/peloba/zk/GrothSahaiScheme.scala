@@ -89,9 +89,9 @@ class GrothSahaiScheme(crs: CommonReferenceString) {
 	 */
 	def commit(X: Matrix, T: Matrix): Pair[FatMatrix, Matrix] = {
 		val E = {
-			if (X.field.equals(crs.G1))
+			if (X.field.getClass.equals(crs.G1.getClass))
 				X.fatMap(2, 1, crs.G1, iota(_)) + (T * crs.u)
-			else if (X.field.equals(crs.G2))
+			else if (X.field.getClass.equals(crs.G2.getClass))
 				X.fatMap(2, 1, crs.G2, iota(_)) + (T * crs.v)
 			else
 				throw new Exception("The elements neither belong to G1 nor to G2")
@@ -132,9 +132,9 @@ class GrothSahaiScheme(crs: CommonReferenceString) {
 	 * @return vector of the module for Z,,r,,
 	 */
 	def iotaPrime(field: Field[_ <: Element], z: Element) = {
-		if (field.equals(crs.G1))
+		if (field.getClass.equals(crs.G1.getClass))
 			(crs.u2 + iota(crs.G)) * z
-		else if (field.equals(crs.G2))
+		else if (field.getClass.equals(crs.G2.getClass))
 			(crs.v2 + iota(crs.H)) * z
 		else
 			throw new Exception("The field is neither G1 nor G2")
@@ -154,9 +154,9 @@ class GrothSahaiScheme(crs: CommonReferenceString) {
 	def commitPrime(field: Field[_ <: Element], z: Matrix, t: Matrix): Pair[FatMatrix, Matrix] = {
 		val ePrime = new FatMatrix(z.numberOfRows, 1, 2, 1, field)
 
-		if (field.equals(crs.G1))
+		if (field.getClass.equals(crs.G1.getClass))
 			(1 to z.numberOfRows).foreach(i => ePrime.set(i, 1, iotaPrime(field, z(i, 1)) + (crs.u1 * t(i, 1))))
-		else if (field.equals(crs.G2)) {
+		else if (field.getClass.equals(crs.G2.getClass)) {
 			(1 to z.numberOfRows).foreach(i => ePrime.set(i, 1, iotaPrime(field, z(i, 1)) + (crs.v1 * t(i, 1))))
 		}
 		else
