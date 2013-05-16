@@ -18,7 +18,7 @@
 package de.peloba
 package math
 
-import it.unisa.dia.gas.plaf.jpbc.pairing.{CurveParams, PairingFactory}
+import it.unisa.dia.gas.plaf.jpbc.pairing.{DefaultCurveParameters, PairingFactory}
 import java.io.ByteArrayInputStream
 import collection.mutable
 
@@ -106,6 +106,6 @@ object Curves {
 	 * @return The jpbc pairing object for the given curve key
 	 */
 	def pairing(curveKey: String) = {
-		PairingFactory.getPairing((new CurveParams()).load(new ByteArrayInputStream(curves.getOrElse(curveKey, emptyByteArray))))
+		PairingFactory.getPairing((new DefaultCurveParameters()).load(new ByteArrayInputStream(curves.getOrElse(curveKey, emptyByteArray))))
 	}
 }
